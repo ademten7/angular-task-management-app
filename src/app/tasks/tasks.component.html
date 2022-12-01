@@ -1,0 +1,131 @@
+<!-- Navbar -->
+<mat-toolbar color="primary">
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>assignment</mat-icon>
+  </button>
+  <span class="header-navbar"> Angular Aufgabenverwaltung App</span>
+  <span class="example-spacer"></span>
+  <button
+    (click)="openDialog()"
+    mat-raised-button
+    class="example-icon favorite-icon new-task-button"
+    aria-label="Example icon-button with heart icon"
+    color="accent"
+  >
+    + Neue Aufgabe
+  </button>
+</mat-toolbar>
+
+<!-- Filter -->
+<div class="filter-form">
+  <div class="form-container">
+    <h1>Filtern der Aufgaben</h1>
+    <mat-form-field appearance="outline">
+      <mat-label>Titel</mat-label>
+      <input
+        [(ngModel)]="filteredTitle"
+        type="text"
+        matInput
+        placeholder="Titel"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Priorität</mat-label>
+      <mat-select [(ngModel)]="filteredPriority" placeholder="Priorität">
+        <mat-option *ngFor="let item of priorities" [value]="item">{{
+          item
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="filteredStatus" placeholder="Status">
+        <mat-option *ngFor="let item of status" [value]="item">{{
+          item
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      class="filter-button"
+      (click)="onTaskFilter()"
+      mat-raised-button
+      color="primary"
+      aria-label="Example icon button with a home icon"
+    >
+      Filter
+    </button>
+    <button
+      (click)="onTaskFilterClear()"
+      mat-raised-button
+      color="basic"
+      aria-label="Example icon button with a home icon"
+    >
+      Löschen
+    </button>
+  </div>
+</div>
+
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  <ul class="header-titles">
+    <li>Titel</li>
+    <li>Beschreibung</li>
+    <li>Priorität</li>
+    <li>Status</li>
+    <li>Aktionen</li>
+  </ul>
+
+  <div
+    [ngClass]="{
+      'new-status': task.status === 'Neu',
+      'progress-status': task.status === 'In Bearbeitung',
+      'completed-status': task.status === 'Abgeschlossen'
+    }"
+    class="example-box"
+    *ngFor="
+      let task of taskList | taskFilter: searchTitle:searchPriority:searchStatus
+    "
+    cdkDrag
+  >
+    <ul class="tasks-list">
+      <li>{{ task.title }}</li>
+      <li>{{ task.description }}</li>
+      <li
+        [ngClass]="{
+          high: task.priority === 'Hoch',
+          medium: task.priority === 'Mittel',
+          low: task.priority === 'Niedrig'
+        }"
+      >
+        {{ task.priority }}
+      </li>
+      <li>{{ task.status }}</li>
+      <li>
+        <button
+          [ngClass]="{
+            'show-only-delete': task.status === 'Abgeschlossen'
+          }"
+          (click)="deleteTask(task.id)"
+          mat-icon-button
+          color="accent"
+          aria-label="Example icon button with a menu icon"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          *ngIf="task.status !== 'Abgeschlossen'"
+          (click)="editTask(task)"
+          mat-icon-button
+          color="primary"
+          aria-label="Example icon button with a home icon"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

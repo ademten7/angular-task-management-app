@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>{{ dialogTitle }}</h1>
+<div mat-dialog-content>
+  <!--import ReactiveFormsModule and FormsModule(for [(ngModel)]) in app.module.ts-->
+  <form [formGroup]="taskForm" autocomplete="on">
+    <mat-form-field appearance="outline">
+      <mat-label>Titel</mat-label>
+      <input formControlName="title" matInput placeholder="Titel" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Beschreibung</mat-label>
+      <textarea
+        formControlName="description"
+        matInput
+        placeholder="Beschreibung"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Priorität</mat-label>
+      <mat-select formControlName="priority" placeholder="Priorität">
+        <mat-option *ngFor="let item of priorities" [value]="item">{{
+          item
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" placeholder="Status">
+        <mat-option *ngFor="let item of status" [value]="item">{{
+          item
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button class="cancel-button" mat-raised-button mat-dialog-close color="warn">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" (click)="addTask()">
+    {{ actionBtn }}
+  </button>
+</div>
