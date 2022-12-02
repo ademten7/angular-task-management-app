@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/task.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DialogComponent } from '../dialog/dialog.component';
 import { TaskData } from '../interfaces/task';
@@ -11,12 +11,13 @@ import { TaskData } from '../interfaces/task';
   styleUrls: ['./tasks.component.scss'],
 })
 export class TasksComponent implements OnInit {
+  taskList: any[] = [];
   priorities: string[] = ['Hoch', 'Mittel', 'Niedrig'];
   status: string[] = ['Neu', 'In Bearbeitung', 'Abgeschlossen'];
-  taskList: any[] = [];
   filteredTitle: string = '';
   filteredPriority: string = '';
   filteredStatus: string = '';
+  //for onTaskFilter method
   searchTitle: string = '';
   searchPriority: string = '';
   searchStatus: string = '';
@@ -46,7 +47,7 @@ export class TasksComponent implements OnInit {
         // console.log(res);
         if (res && res.length > 0) {
           this.taskList = res;
-          //to put new task on the top of the list
+          //to put new and edit tasks on the top of the list
           this.taskList.sort((a, b) => b.published_time - a.published_time);
         }
       },
@@ -84,10 +85,11 @@ export class TasksComponent implements OnInit {
   }
 
   //drag-drop method
-  drop(event: CdkDragDrop<Object[]>) {
+  drop(event: CdkDragDrop<TaskData[]>) {
     moveItemInArray(this.taskList, event.previousIndex, event.currentIndex);
   }
 
+  //filter Tasks
   onTaskFilter(): void {
     this.searchTitle = this.filteredTitle;
     this.searchPriority = this.filteredPriority;

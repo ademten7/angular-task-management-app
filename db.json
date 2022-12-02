@@ -2,10 +2,10 @@
   "taskList": [
     {
       "title": "Angular ",
-      "description": "Angular is an application-design framework and development platform for creating efficient and sophisticated single-page apps.",
+      "description": "Angular is an application-design framework and development platform for creating efficient and sophisticated single-page apps",
       "priority": "Mittel",
       "status": "Neu",
-      "published_time": 1669856747825,
+      "published_time": 1669980766000,
       "id": 1
     },
     {

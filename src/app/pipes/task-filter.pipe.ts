@@ -30,7 +30,7 @@ export class TaskFilterPipe implements PipeTransform {
     if (filteredStatus) {
       taskList = taskList.filter((task) => task.status === filteredStatus);
     }
-    console.log(taskList);
+    //console.log(taskList);
 
     return taskList;
   }
